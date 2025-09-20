@@ -11,11 +11,17 @@
   "dependencies": {
     "expo": "~54.0.7",
     "expo-status-bar": "~3.0.8",
+    "nativewind": "^4.2.1",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "19.1.0",
-    "react-native": "0.81.4"
+    "react-native": "0.81.4",
+    "react-native-reanimated": "^4.1.0",
+    "react-native-safe-area-context": "^5.4.0",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "babel-preset-expo": "^54.0.1",
     "typescript": "~5.9.2"
   },
   "private": true
