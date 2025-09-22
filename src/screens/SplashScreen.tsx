@@ -8,18 +8,22 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStack } from "../../App";
+import { useNavigation } from "@react-navigation/native";
+
+type Props = NativeStackNavigationProp<RootStack, "SplashScreen">;
 
 export default function SplashScreen() {
+  const navigation = useNavigation<Props>();
+
   const opacity = useSharedValue(0);
- 
 
   useEffect(() => {
     opacity.value = withTiming(1, { duration: 3000 });
 
-  
-
     const timer = setTimeout(() => {
-      console.log("finish");
+      navigation.navigate("SignUpScreen");
     }, 3000);
 
     return () => {
@@ -32,8 +36,6 @@ export default function SplashScreen() {
       opacity: opacity.value,
     };
   });
-
-  
 
   return (
     <View className="flex-1 justify-center items-center bg-black">
@@ -48,10 +50,11 @@ export default function SplashScreen() {
           topValue={-25}
           leftValue={-50}
           animateCircle={true}
-       
+         
         />
+      
 
-        
+      
         <CircleShape
           width={160}
           height={160}
@@ -60,22 +63,39 @@ export default function SplashScreen() {
           topValue={-13}
           leftValue={-40}
           animateCircle={true}
-       
-        />
-
-        <CircleShape 
-
-        width={130}
-        height={130}
-        className="bg-yellow-400"
-        borderRadius={999}
-        topValue={-25}
-        leftValue={240}
-        animateCircle={true}
-        
+           text="Stay Connected"
+           textColor="text-yellow-400"
         
         />
       
+
+    
+        <CircleShape
+          width={130}
+          height={130}
+          className="bg-yellow-400"
+          borderRadius={999}
+          topValue={-25}
+          leftValue={240}
+          animateCircle={true}
+           text="Let's Chat"
+           textColor="text-black"
+          
+        />
+      
+        <CircleShape
+          width={130}
+          height={130}
+          className="bg-yellow-400"
+          borderRadius={999}
+          topValue={500}
+          leftValue={-20}
+          animateCircle={true}
+          swingDirection="y"
+          text="Chatty Vibes!"
+          textColor="text-black"
+        />
+     
 
       <Animated.View style={animatedStyle}>
         <Image
