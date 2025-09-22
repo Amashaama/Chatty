@@ -8,11 +8,17 @@ import SettingScreen from "./src/screens/SettingScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import { ThemeProvider } from "./src/theme/ThemeProvider";
 import "./global.css";
+import ContactScreen from "./src/screens/ContactScreen";
+import AvatarScreen from "./src/screens/AvatarScreen";
 
 export type RootStack = {
   SplashScreen :undefined;
-  SignInScreen:undefined;
   SignUpScreen: undefined;
+  ContactScreen:undefined;
+  AvatarScreen:undefined;
+  SignInScreen:undefined;
+  
+
   HomeScreen:undefined;
   SettingScreen:undefined;
   ProfileScreen:undefined;
@@ -26,13 +32,15 @@ export default function App(){
  <ThemeProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SplashScreen"
+        initialRouteName="ContactScreen"
         screenOptions={{
           animation:"fade"
         }}
         >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown:false}} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="ContactScreen" component={ContactScreen} options={{headerShown:false}} />
+        <Stack.Screen name="AvatarScreen" component={AvatarScreen} options={{headerShown:false}} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown:false}} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}/>
         <Stack.Screen name="SettingScreen" component={SettingScreen} options={{headerShown:false}} />
