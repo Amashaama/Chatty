@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStack } from "../../App";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "../theme/ThemeProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = NativeStackNavigationProp<RootStack, "SplashScreen">;
 
@@ -37,8 +39,12 @@ export default function SplashScreen() {
     };
   });
 
+  const {applied} =useTheme();
+
+  const logo = applied === "dark"?require("../../assets/chattyLogo.png") : require("../../assets/lightChattyLogo.png");
+
   return (
-    <View className="flex-1 justify-center items-center bg-black">
+    <SafeAreaView className="flex-1 justify-center items-center bg-slate-50 dark:bg-slate-950">
       <StatusBar hidden />
 
      
@@ -99,21 +105,21 @@ export default function SplashScreen() {
 
       <Animated.View style={animatedStyle}>
         <Image
-          source={require("../../assets/chattyLogo.png")}
+          source={logo}
           style={{ height: 220, width: 220 }}
         />
       </Animated.View>
 
       <Animated.View className="absolute bottom-20" style={animatedStyle}>
         <View className="justify-center items-center">
-          <Text className="text-xs font-bold text-amber-200">
+          <Text className="text-xs font-bold text-slate-600 dark:text-amber-200">
             POWERED BY: {process.env.EXPO_PUBLIC_APP_OWNER}
           </Text>
-          <Text className="text-xs font-bold text-amber-200">
+          <Text className="text-xs font-bold text-slate-600 dark:text-amber-200">
             VERSION :{process.env.EXPO_PUBLIC_APP_VERSION}
           </Text>
         </View>
       </Animated.View>
-    </View>
+    </SafeAreaView>
   );
 }
