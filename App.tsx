@@ -10,10 +10,13 @@ import { ThemeProvider } from "./src/theme/ThemeProvider";
 import "./global.css";
 import ContactScreen from "./src/screens/ContactScreen";
 import AvatarScreen from "./src/screens/AvatarScreen";
+import ExampeContactScreen from "./src/screens/ExampleContact";
+
 
 export type RootStack = {
   SplashScreen :undefined;
   SignUpScreen: undefined;
+  ExampleContact:undefined;
   ContactScreen:undefined;
   AvatarScreen:undefined;
   SignInScreen:undefined;
@@ -29,10 +32,11 @@ const Stack = createNativeStackNavigator<RootStack>();
 
 export default function App(){
   return (
+   
  <ThemeProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ContactScreen"
+        initialRouteName="SplashScreen"
         screenOptions={{
           animation:"fade"
         }}
@@ -40,6 +44,14 @@ export default function App(){
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown:false}} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{headerShown:false}}/>
         <Stack.Screen name="ContactScreen" component={ContactScreen} options={{headerShown:false}} />
+
+
+        <Stack.Screen name="ExampleContact" component={ExampeContactScreen} options={{headerShown:false}} />
+
+
+
+
+
         <Stack.Screen name="AvatarScreen" component={AvatarScreen} options={{headerShown:false}} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown:false}} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}/>
@@ -48,6 +60,7 @@ export default function App(){
       </Stack.Navigator>
     </NavigationContainer>
 </ThemeProvider>
+
 
 
 
