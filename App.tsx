@@ -1,4 +1,4 @@
-import { NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SplashScreen from "./src/screens/SplashScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
@@ -12,58 +12,87 @@ import ContactScreen from "./src/screens/ContactScreen";
 import AvatarScreen from "./src/screens/AvatarScreen";
 import ExampeContactScreen from "./src/screens/ExampleContact";
 
+import { UserRegistrationProvider } from "./src/components/UserContext";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 export type RootStack = {
-  SplashScreen :undefined;
+  SplashScreen: undefined;
   SignUpScreen: undefined;
-  ExampleContact:undefined;
-  ContactScreen:undefined;
-  AvatarScreen:undefined;
-  SignInScreen:undefined;
-  
+  ExampleContact: undefined;
+  ContactScreen: undefined;
+  AvatarScreen: undefined;
+  SignInScreen: undefined;
 
-  HomeScreen:undefined;
-  SettingScreen:undefined;
-  ProfileScreen:undefined;
-}
-
+  HomeScreen: undefined;
+  SettingScreen: undefined;
+  ProfileScreen: undefined;
+};
 
 const Stack = createNativeStackNavigator<RootStack>();
 
-export default function App(){
+export default function App() {
   return (
-   
- <ThemeProvider>
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="SplashScreen"
-        screenOptions={{
-          animation:"fade"
-        }}
-        >
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown:false}} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="ContactScreen" component={ContactScreen} options={{headerShown:false}} />
+    <AlertNotificationRoot>
+      <ThemeProvider>
+        <UserRegistrationProvider>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="SplashScreen"
+              screenOptions={{
+                animation: "fade",
+              }}
+            >
+              <Stack.Screen
+                name="SplashScreen"
+                component={SplashScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SignUpScreen"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ContactScreen"
+                component={ContactScreen}
+                options={{ headerShown: false }}
+              />
 
+              <Stack.Screen
+                name="ExampleContact"
+                component={ExampeContactScreen}
+                options={{ headerShown: false }}
+              />
 
-        <Stack.Screen name="ExampleContact" component={ExampeContactScreen} options={{headerShown:false}} />
-
-
-
-
-
-        <Stack.Screen name="AvatarScreen" component={AvatarScreen} options={{headerShown:false}} />
-        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown:false}} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="SettingScreen" component={SettingScreen} options={{headerShown:false}} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown:false}} />
-      </Stack.Navigator>
-    </NavigationContainer>
-</ThemeProvider>
-
-
-
-
-
+              <Stack.Screen
+                name="AvatarScreen"
+                component={AvatarScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SignInScreen"
+                component={SignInScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="HomeScreen"
+                component={HomeScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SettingScreen"
+                component={SettingScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserRegistrationProvider>
+      </ThemeProvider>
+    </AlertNotificationRoot>
   );
 }

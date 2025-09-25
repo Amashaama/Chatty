@@ -12,10 +12,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useUserRegistration } from "../components/UserContext";
 
 export default function AvatarScreen() {
   const [image, setImage] = useState<string | null>(null);
-  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
+
+  const {userData,setUserData} = useUserRegistration();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -27,7 +29,12 @@ export default function AvatarScreen() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      setSelectedAvatar(null);
+
+      setUserData((previous)=>({
+        ...previous,
+        profileImage:result.assets[0].uri,
+      }));
+    
     }
   };
 
@@ -113,7 +120,13 @@ export default function AvatarScreen() {
               keyExtractor={(_, index) => index.toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  onPress={() => setImage(Image.resolveAssetSource(item).uri)}
+                  onPress={() => {
+                    setImage(Image.resolveAssetSource(item).uri);
+                    setUserData((previous)=>({
+                      ...previous,
+                      profileImage:Image.resolveAssetSource(item).uri,
+                    }));
+                  }}
                   className="mx-1"
                 >
                   <Image
@@ -132,7 +145,11 @@ export default function AvatarScreen() {
 
         <View className="w-full px-5 mt-5">
             <Pressable
-            className="h-14 bg-yellow-400 items-center justify-center rounded-full">
+            className="h-14 bg-yellow-400 items-center justify-center rounded-full"
+            onPress={()=>{
+              console.log(userData);
+            }}
+            >
             <Text className="font-bold text-lg text-slate-950">Create Account</Text>
 
             </Pressable>
