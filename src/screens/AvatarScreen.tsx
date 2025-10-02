@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Pressable,
@@ -13,11 +14,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useUserRegistration } from "../components/UserContext";
+import { validateProfileImage } from "../util/Validations";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import { createNewAccount } from "../api/UserService";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStack } from "../../App";
+import { useNavigation } from "@react-navigation/native";
+
+type AvatarScreenProps = NativeStackNavigationProp<RootStack,"AvatarScreen">;
 
 export default function AvatarScreen() {
+  const navigation = useNavigation<AvatarScreenProps>();
   const [image, setImage] = useState<string | null>(null);
 
-  const {userData,setUserData} = useUserRegistration();
+  const { userData, setUserData } = useUserRegistration();
+  const [loading, setLoading] = useState(false);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -30,11 +41,10 @@ export default function AvatarScreen() {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
 
-      setUserData((previous)=>({
+      setUserData((previous) => ({
         ...previous,
-        profileImage:result.assets[0].uri,
+        profileImage: result.assets[0].uri,
       }));
-    
     }
   };
 
@@ -122,9 +132,9 @@ export default function AvatarScreen() {
                 <TouchableOpacity
                   onPress={() => {
                     setImage(Image.resolveAssetSource(item).uri);
-                    setUserData((previous)=>({
+                    setUserData((previous) => ({
                       ...previous,
-                      profileImage:Image.resolveAssetSource(item).uri,
+                      profileImage: Image.resolveAssetSource(item).uri,
                     }));
                   }}
                   className="mx-1"
@@ -135,32 +145,67 @@ export default function AvatarScreen() {
                   />
                 </TouchableOpacity>
               )}
-              contentContainerStyle={{ paddingHorizontal: 4,justifyContent:"center" }}
+              contentContainerStyle={{
+                paddingHorizontal: 4,
+                justifyContent: "center",
+              }}
               showsHorizontalScrollIndicator={false}
             />
           </View>
         </View>
 
-        
-
         <View className="w-full px-5 mt-5">
-            <Pressable
+          <Pressable
             className="h-14 bg-yellow-400 items-center justify-center rounded-full"
-            onPress={()=>{
-              console.log(userData);
+            onPress={async () => {
+           
+              const validProfile = validateProfileImage(
+                userData.profileImage
+                  ? { uri: userData.profileImage, type: "", fileSize: 0 }
+                  : null
+              );
+
+              if (validProfile) {
+                Toast.show({
+                  type: ALERT_TYPE.WARNING,
+                  title: "Warning",
+                  textBody: "Select a profile image or an avatar",
+                });
+              } else {
+                try {
+                  setLoading(true);
+                  const response = await createNewAccount(userData);
+                  if (response.status) {
+                      navigation.navigate("HomeScreen");
+                  } else {
+                    Toast.show({
+                      type: ALERT_TYPE.WARNING,
+                      title: "Warning",
+                      textBody: response.message,
+                    });
+                  }
+                } catch (error) {
+                  console.log(error);
+                } finally {
+                  setLoading(false);
+                }
+              }
             }}
-            >
-            <Text className="font-bold text-lg text-slate-950">Create Account</Text>
-
-            </Pressable>
-            {!image && (
-                <Text className="text-slate-400 text-xs text-center mt-2">
-                     Please select a profile image to continue
-                </Text>
+          >
+            {loading ? (
+              <ActivityIndicator size={"large"} color={"red"} />
+            ) : (
+              <Text className="font-bold text-lg text-slate-950">
+                Create Account
+              </Text>
             )}
+          </Pressable>
+          {!image && (
+            <Text className="text-slate-400 text-xs text-center mt-2">
+              Please select a profile image to continue
+            </Text>
+          )}
         </View>
-
-
       </View>
     </SafeAreaView>
   );
