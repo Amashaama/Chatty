@@ -10,22 +10,29 @@ import { ThemeProvider } from "./src/theme/ThemeProvider";
 import "./global.css";
 import ContactScreen from "./src/screens/ContactScreen";
 import AvatarScreen from "./src/screens/AvatarScreen";
-import ExampeContactScreen from "./src/screens/ExampleContact";
+
 
 import { UserRegistrationProvider } from "./src/components/UserContext";
 import { AlertNotificationRoot } from "react-native-alert-notification";
+import HomeTabs from "./src/screens/HomeTabs";
 
 export type RootStack = {
   SplashScreen: undefined;
   SignUpScreen: undefined;
-  ExampleContact: undefined;
+  
   ContactScreen: undefined;
   AvatarScreen: undefined;
   SignInScreen: undefined;
 
   HomeScreen: undefined;
-  SettingScreen: undefined;
+ 
   ProfileScreen: undefined;
+  // SingleChatScreen:{
+  //   chatId:number;
+  //   friendName:string;
+  //   lastSeenTime:string;
+  //   profileImage:string;
+  // };
 };
 
 const Stack = createNativeStackNavigator<RootStack>();
@@ -37,7 +44,7 @@ export default function App() {
         <UserRegistrationProvider>
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="SplashScreen"
+              initialRouteName="HomeScreen"
               screenOptions={{
                 animation: "fade",
               }}
@@ -58,11 +65,7 @@ export default function App() {
                 options={{ headerShown: false }}
               />
 
-              <Stack.Screen
-                name="ExampleContact"
-                component={ExampeContactScreen}
-                options={{ headerShown: false }}
-              />
+           
 
               <Stack.Screen
                 name="AvatarScreen"
@@ -76,14 +79,11 @@ export default function App() {
               />
               <Stack.Screen
                 name="HomeScreen"
-                component={HomeScreen}
-                options={{ headerShown: false }}
+                component={HomeTabs}
+                options={{headerShown:false}}
+               
               />
-              <Stack.Screen
-                name="SettingScreen"
-                component={SettingScreen}
-                options={{ headerShown: false }}
-              />
+             
               <Stack.Screen
                 name="ProfileScreen"
                 component={ProfileScreen}
