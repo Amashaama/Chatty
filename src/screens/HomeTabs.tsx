@@ -3,10 +3,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatsScren from "./ChatsScreen";
 import StatusScreen from "./StatusScreen";
 import CallsScreen from "./CallsScreen";
+import { useTheme } from "../theme/ThemeProvider";
 
 const Tabs = createBottomTabNavigator();
 
+
 export default function HomeTabs() {
+  const { applied } = useTheme();
+  const isDark = applied === "dark";
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -21,8 +25,8 @@ export default function HomeTabs() {
          tabBarActiveTintColor:"#fbbf24",
         tabBarInactiveTintColor:"#9ca3af",
         tabBarStyle:{
-          height:90,
-          backgroundColor:"#fff",
+          height:100,
+            backgroundColor: isDark ? "#000000" : "#ffffff",
           paddingTop:0
         }
       })}

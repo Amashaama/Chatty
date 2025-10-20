@@ -24,13 +24,13 @@ export default function SplashScreen() {
   useEffect(() => {
     opacity.value = withTiming(1, { duration: 3000 });
 
-    const timer = setTimeout(() => {
-      navigation.navigate("SignUpScreen");
-    }, 3000);
+    // const timer = setTimeout(() => {
+    //   navigation.navigate("SignUpScreen");
+    // }, 3000);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    // return () => {
+    //   clearTimeout(timer);
+    // };
   }, [opacity]);
 
   const animatedStyle = useAnimatedStyle(() => {
