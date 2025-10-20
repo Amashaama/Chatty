@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -20,6 +20,7 @@ import { createNewAccount } from "../api/UserService";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStack } from "../../App";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../components/AuthProvider";
 
 type AvatarScreenProps = NativeStackNavigationProp<RootStack,"AvatarScreen">;
 
@@ -65,6 +66,8 @@ export default function AvatarScreen() {
     require("../../assets/avatar/avatar_14.png"),
     require("../../assets/avatar/avatar_15.png"),
   ];
+
+  const auth = useContext(AuthContext);
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -176,7 +179,11 @@ export default function AvatarScreen() {
                   setLoading(true);
                   const response = await createNewAccount(userData);
                   if (response.status) {
-                      navigation.navigate("HomeScreen");
+                      const id = response.userId;
+                      console.log(id);
+                      if(auth){
+                await auth.signUp(String(id));
+                      }
                   } else {
                     Toast.show({
                       type: ALERT_TYPE.WARNING,
